@@ -1,5 +1,5 @@
-# CODING_TEST
-코딩테스트 문제 모음 - BAEKJOON online judge
+# 🧩Algorithm - Java
+1. Do it! 알고리즘 코딩 테스트 자바편
 
 ## Day.1
 > 구간 합 구하기
