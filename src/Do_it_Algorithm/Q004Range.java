@@ -1,4 +1,4 @@
-package Chapter01;
+package Do_it_Algorithm;
 
 import java.util.Scanner;
 

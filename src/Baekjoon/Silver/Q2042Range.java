@@ -1,4 +1,4 @@
-package Chapter01;
+package Baekjoon.Silver;
 
 import java.util.ArrayList;
 import java.util.List;
