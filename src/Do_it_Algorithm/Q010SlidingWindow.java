@@ -1,8 +1,8 @@
 package Do_it_Algorithm;
 
 import java.io.*;
+import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.LinkedList;
 import java.util.StringTokenizer;
 
 /*
@@ -26,47 +26,33 @@ public class Q010SlidingWindow {
 
         st = new StringTokenizer(bf.readLine());
 
-        Deque<Node> deque = new LinkedList<>();
+        // LinkedList 보다 ArrayDeque 가 더 가벼움
+        Deque<Node> deque = new ArrayDeque<>();
 
         for (int i = 1 ; i < N+1; i++) {
             int now = Integer.parseInt(st.nextToken());
 
-            Node nd = new Node(i, now);
-            if (i == 1) {
-                deque.addLast(nd);
-                bw.write(now + " ");
-                continue;
-            }
-
             while (!deque.isEmpty() && deque.getLast().value >= now) {
-                deque.removeLast();
+                deque.pollLast();
             }
-
-            if (!deque.isEmpty() && deque.getFirst().getIndex() <= i - L) {
-                deque.removeFirst();
+            deque.addLast(new Node(i, now));
+            if (!deque.isEmpty() && deque.peek().index <= i - L) {
+                deque.poll();
             }
-            deque.addLast(nd);
-            bw.write(deque.getFirst().getValue() + " ");
+            bw.write(deque.getFirst().value + " ");
         }
         bw.flush();
         bw.close();
     }
 
-    static class Node {
-        private final Integer index;
-        private final Integer value;
+    // 클래스 필드를 Integer 로 하면 시간초과 발생
+     static class Node {
+        public final int index;
+        public final int value;
 
         public Node(Integer index, Integer value) {
             this.index = index;
             this.value = value;
-        }
-
-        public Integer getIndex() {
-            return index;
-        }
-
-        public Integer getValue() {
-            return value;
         }
     }
 }
