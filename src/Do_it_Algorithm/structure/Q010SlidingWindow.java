@@ -1,4 +1,4 @@
-package Do_it_Algorithm;
+package Do_it_Algorithm.structure;
 
 import java.io.*;
 import java.util.ArrayDeque;

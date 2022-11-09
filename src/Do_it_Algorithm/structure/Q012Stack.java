@@ -1,4 +1,4 @@
-package Do_it_Algorithm;
+package Do_it_Algorithm.structure;
 
 /* 백준 - 17298 Gold IV
 *  STACK 활용
