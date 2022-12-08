@@ -1,6 +1,5 @@
 package Programmers.level0;
 
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
