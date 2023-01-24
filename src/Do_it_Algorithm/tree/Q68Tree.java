@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+/*
+* 1068번 - Silver I
+* */
 public class Q68Tree {
     static List<Integer>[] node;
     static boolean[] visited;
