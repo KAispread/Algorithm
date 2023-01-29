@@ -3,6 +3,9 @@ package commuLearning.week3.step3;
 import java.util.HashSet;
 import java.util.Set;
 
+/*
+* 가면 감
+* */
 public class Question2 {
     private int[] union;
     private boolean[] visited;

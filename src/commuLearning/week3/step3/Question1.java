@@ -1,5 +1,8 @@
 package commuLearning.week3.step3;
 
+/*
+* 올바른 괄호의 개수
+* */
 public class Question1 {
     private int answer;
     private int max;
