@@ -25,7 +25,11 @@
 ## 📌[Programmers school](https://github.com/KAispread/Algorithm/tree/master/src/Programmers)
 
 ## 📌[커뮤러닝 - Programmers](https://github.com/KAispread/Algorithm/tree/master/src/commuLearning)
-> Week1 - 그리디, 정렬, 탐색, 시뮬레이션
-> Week2 - 중간고사
-> Week3 - 해시, BFS, DFS, 동적계획법
-> Week4 - 기말고사
+> Week 1 
+- 그리디, 정렬, 탐색, 시뮬레이션 
+> Week 2 
+- 중간고사
+> Week 3 
+- 해시, BFS, DFS, 동적계획법
+> Week 4 
+- 기말고사
