@@ -60,6 +60,8 @@ public class Q70BinaryTree {
         }
         // 왼쪽 -> 루트 -> 오른쪽
         inOrder(tree[now][0]);
+
+        // 왼쪽을 탐색하고 나오면서 루트 노드 print
         System.out.print((char) (now + 'A'));
         inOrder(tree[now][1]);
     }
@@ -71,6 +73,8 @@ public class Q70BinaryTree {
         // 왼쪽 -> 오른쪽 -> 루트
         postOrder(tree[now][0]);
         postOrder(tree[now][1]);
+
+        // 왼쪽과 오른쪽을 탐색하고 나오면서 루트 노드 print
         System.out.print((char) (now + 'A'));
     }
 }
