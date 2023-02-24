@@ -1,0 +1,8 @@
+-- 식품분류별 가장 비싼 식품의 정보 조회하기
+SELECT P.CATEGORY, P.PRICE, P.PRODUCT_NAME
+FROM FOOD_PRODUCT P
+         JOIN (SELECT CATEGORY, MAX(PRICE) as M_PRICE
+               FROM FOOD_PRODUCT
+               WHERE CATEGORY IN ('과자', '국', '김치', '식용유')
+               GROUP BY CATEGORY) as F ON F.CATEGORY = P.CATEGORY and F.M_PRICE = P.PRICE
+ORDER BY P.PRICE DESC;
