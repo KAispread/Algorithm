@@ -1,4 +1,4 @@
-package Programmers.level3.solved;
+package Programmers.level3;
 
 /*
 * 정수 삼각형

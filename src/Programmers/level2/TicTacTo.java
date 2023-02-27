@@ -1,4 +1,4 @@
-package Programmers.level2.solved;
+package Programmers.level2;
 
 /*
 게임이 비 정상적인 경우

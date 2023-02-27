@@ -1,4 +1,4 @@
-package Programmers.level3;
+package Programmers.level3.unsolved;
 
 public class CPUCores {
     // 시간 초과

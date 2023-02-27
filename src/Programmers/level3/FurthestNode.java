@@ -1,4 +1,4 @@
-package Programmers.level3.solved;
+package Programmers.level3;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
