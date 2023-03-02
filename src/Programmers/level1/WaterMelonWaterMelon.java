@@ -1,5 +1,9 @@
 package Programmers.level1;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class WaterMelonWaterMelon {
     public String solution(int n) {
         String answer = "";
