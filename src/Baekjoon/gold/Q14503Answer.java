@@ -3,7 +3,7 @@ package Baekjoon.gold;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Q14503Answer {
     // BOJ / 14503번 / 로봇청소기 / 그래프 / 골5
