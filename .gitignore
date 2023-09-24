@@ -1,2 +1,7 @@
-.idea/
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+
 Algorithm.iml
