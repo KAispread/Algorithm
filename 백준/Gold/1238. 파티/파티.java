@@ -1,101 +1,94 @@
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.StringTokenizer;
- 
-class Town implements Comparable<Town> {
-    int end;
-    int weight;
- 
-    Town(int end, int weight) {
-        this.end = end;
-        this.weight = weight;
-    }
- 
-    @Override
-    public int compareTo(Town arg0) {
-        return weight - arg0.weight;
-    }
-}
- 
+
+/*
+* 다익스트라 알고리즘 사용
+* 정점 N으로 오는 모든 정점에 대하여 다익스트라 알고리즘 수행
+* 모든 정점에서 출발하여 정점 N으로 가는 경로에 대해 다익스트라 알고리즘 수행
+* 1, 2 번을 합쳤을 때 가장 큰 값을 출력
+* */
 public class Main {
-    static final int INF = 987654321;
-    static ArrayList<ArrayList<Town>> arrList, reverse_arrList;
-    static int N, X;
- 
-    public static void main(String[] args) throws NumberFormatException, IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        StringTokenizer st = new StringTokenizer(br.readLine());
- 
-        N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
-        X = Integer.parseInt(st.nextToken());
- 
-        arrList = new ArrayList<>(); // 문제의 입력을 그대로 받은 배열
-        reverse_arrList = new ArrayList<>(); // 문제의 입력을 반대로 받은 배열
- 
-        for (int i = 0; i <= N; i++) {
-            arrList.add(new ArrayList<>());
-            reverse_arrList.add(new ArrayList<>());
+
+    static class Node {
+        int idx;
+        int length;
+
+        public Node(int idx, int length) {
+            this.idx = idx;
+            this.length = length;
         }
- 
-        // arrList와 reverse_arrList를 각각 단방향 인접리스트로 구현
+    }
+
+    private static boolean[] visited;
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(bf.readLine());
+
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+        int X = Integer.parseInt(st.nextToken());
+
+        List<Node>[] comeToNode = new List[N + 1];
+        List<Node>[] fromNode = new List[N + 1];
+
+        for (int i = 1; i < comeToNode.length; i++) {
+            comeToNode[i] = new ArrayList<>();
+            fromNode[i] = new ArrayList();
+        }
+
         for (int i = 0; i < M; i++) {
-            st = new StringTokenizer(br.readLine());
+            st = new StringTokenizer(bf.readLine());
             int start = Integer.parseInt(st.nextToken());
             int end = Integer.parseInt(st.nextToken());
-            int weight = Integer.parseInt(st.nextToken());
- 
-            arrList.get(start).add(new Town(end, weight));
-            reverse_arrList.get(end).add(new Town(start, weight));
+            int length = Integer.parseInt(st.nextToken());
+
+            comeToNode[end].add(new Node(start, length));
+            fromNode[start].add(new Node(end, length));
         }
- 
-        int[] dist1 = dijkstra(arrList); // X에서 시작점들 사이의 최단거리
-        int[] dist2 = dijkstra(reverse_arrList); // 시작점들에서 X 사이의 최단거리
- 
-        int ans = 0;
-        for (int i = 1; i <= N; i++) {
-            ans = Math.max(ans, dist1[i] + dist2[i]);
+
+        int[] comeTo = dijkstra(X,N, comeToNode);
+        int[] fromTo = dijkstra(X,N, fromNode);
+
+        int max = 0;
+        for (int i = 1; i < comeTo.length; i++) {
+            max = Math.max(comeTo[i] + fromTo[i], max);
         }
- 
-        bw.write(ans + "\n");
-        bw.flush();
-        bw.close();
-        br.close();
+        System.out.println(max);
     }
-    
-    // 다익스트라 알고리즘
-    public static int[] dijkstra(ArrayList<ArrayList<Town>> a) {
-        PriorityQueue<Town> pq = new PriorityQueue<>();
-        pq.offer(new Town(X, 0));
-        
-        boolean[] check = new boolean[N + 1];
-        int[] dist = new int[N + 1];
-        Arrays.fill(dist, INF);
-        dist[X] = 0;
- 
-        while (!pq.isEmpty()) {
-            Town curTown = pq.poll();
-            int cur = curTown.end;
- 
-            if (!check[cur]) {
-                check[cur] = true;
- 
-                for (Town town : a.get(cur)) {
-                    if (!check[town.end] && dist[town.end] > dist[cur] + town.weight) {
-                        dist[town.end] = dist[cur] + town.weight;
-                        pq.add(new Town(town.end, dist[town.end]));
+
+    private static int[] dijkstra(int X, int N, List<Node>[] node) {
+        visited = new boolean[N + 1];
+        Queue<Node> leftNode = new PriorityQueue<>((o1, o2) -> o1.length - o2.length);
+        leftNode.offer(new Node(X, 0));
+
+        int[] minimum = new int[N + 1];
+        Arrays.fill(minimum, Integer.MAX_VALUE);
+        minimum[X] = 0;
+
+        // 한 정점에서 N으로 가는 최단거리 구하기
+        while (!leftNode.isEmpty()) {
+            Node n = leftNode.poll();
+
+            if (!visited[n.idx]) {
+                visited[n.idx] = true;
+
+                for (Node current : node[n.idx]) {
+                    if (!visited[current.idx] && minimum[current.idx] > n.length + current.length) {
+                        minimum[current.idx] = Math.min(n.length + current.length, minimum[current.idx]);
+                        leftNode.offer(new Node(current.idx, minimum[current.idx]));
                     }
                 }
             }
         }
-        return dist;
+
+        return minimum;
     }
- 
 }
