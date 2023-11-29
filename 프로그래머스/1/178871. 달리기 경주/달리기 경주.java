@@ -3,8 +3,6 @@ import java.util.*;
 class Solution {
 
    public String[] solution(String[] players, String[] callings) {
-
-
         Map<String,Integer> map = new HashMap<>();
 
         for(int i = 0; i < players.length; i++){
@@ -25,5 +23,4 @@ class Solution {
         return players;
     }
 
-    
 }
