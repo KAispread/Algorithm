@@ -2,77 +2,71 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-/*
-* 맵을 만듦
-* 0,0부터 시작해서 1인 구간을 찾으면 BFS 탐색 ㄱ
-* visited로 방문한 지역 체크
-* */
 public class Main {
 
-    private static int[][] move = new int[][] {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+    private static int[][] map;
+    private static int[][] moving = new int[][] {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
 
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(bf.readLine());
-        char[][] map = new char[N][N];
+        map = new int[N][N];
 
         for (int i = 0; i < N; i++) {
-            char[] house = bf.readLine().toCharArray();
-            for (int j = 0; j < house.length; j++) {
-                map[i][j] = house[j];
+            String mapLine = bf.readLine();
+
+            for (int s = 0; s < mapLine.length(); s++) {
+                map[i][s] = mapLine.charAt(s) - '0';
             }
         }
 
         List<Integer> answer = new ArrayList<>();
-        for (int i = 0; i < map.length; i++) {
-            for (int j = 0; j < map[0].length; j++) {
-                if (map[i][j] == '1') {
-                    answer.add(BFS(map, i, j));
-                }
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (map[i][j] == 1) answer.add(checkApart(j, i));
             }
         }
-
+        Collections.sort(answer);
         System.out.println(answer.size());
-        answer.stream()
-            .sorted()
-            .forEach(System.out::println);
+
+        for (int a : answer) {
+            System.out.println(a);
+        }
     }
 
-    // return - 몇 가구인지?
-    private static int BFS(char[][] map, int i, int j) {
-        int answer = 1;
+    private static int checkApart(int x, int y) {
+        int count = 1;
         Queue<int[]> queue = new LinkedList<>();
-        queue.offer(new int[] {i, j});
-        map[i][j] = '0';
+        queue.offer(new int[] {x, y});
+        map[y][x] = 0;
 
         while (!queue.isEmpty()) {
-            int[] p = queue.poll();
-            int x = p[0];
-            int y = p[1];
+            int[] current = queue.poll();
 
-            // 상하좌우
-            for (int[] m : move) {
-                int cx = x +  m[0];
-                int cy = y +  m[1];
+            for (int[] move : moving) {
+                int tx = current[0] + move[0];
+                int ty = current[1] + move[1];
 
-                if (validate(map, cx, cy)) {
-                    queue.offer(new int[] {cx, cy});
-                    map[cx][cy] = '0';
-                    answer++;
+                if (validate(tx, ty)) {
+                    queue.offer(new int[] {tx, ty});
+                    map[ty][tx] = 0;
+                    count++;
                 }
             }
         }
 
-        return answer;
+        return count;
     }
 
-    private static boolean validate(char[][] map, int x, int y) {
-        if (x < 0 || y < 0 || x >= map.length || y >= map[0].length) return false;
-        if (map[x][y] != '1') return false;
+    private static boolean validate(int x, int y) {
+        if (x < 0 || y < 0 || x >= map[0].length || y >= map.length) return false;
+        if (map[y][x] <= 0) return false;
         return true;
     }
 }
+
