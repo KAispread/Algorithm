@@ -1,43 +1,33 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 public class Main {
 
-    static int N;
-    static int M;
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        N = Integer.parseInt(bf.readLine());
-        M = Integer.parseInt(bf.readLine());
-        char[] charArray = bf.readLine().toCharArray();
+		int N = Integer.parseInt(br.readLine());
+		int M = Integer.parseInt(br.readLine());
+		char s[] = br.readLine().toCharArray();
 
-        int answer = 0;
-        for (int i = 0; i < charArray.length; i++) {
-            if (charArray[i] == 'I' && isPn(i, charArray)) answer++;
-        }
+		int result = 0;
+		int count = 0;
 
-        System.out.println(answer);
-    }
+		for(int i=1; i < M - 1; i++) {
+		if(s[i - 1] == 'I' && s[i] == 'O' && s[i + 1] == 'I') {
+				count++;
 
-    private static boolean isPn(int startIdx, char[] charArray) {
-        boolean toBeI = true;
-        int oCount = 0;
+				if(count == N) {
+					count--;
+					result++;
+				}
+                i++;
+			}
+			else {
+				count = 0;
+			}
+		}
 
-        for (int i = startIdx; i < charArray.length; i++) {
-            if ((toBeI && charArray[i] != 'I') || (!toBeI && charArray[i] == 'I')) return false;
+		System.out.println(result);
 
-            if (charArray[i] == 'I') {
-                if (oCount == N) return true;
-                toBeI = false;
-            } else {
-                oCount++;
-                toBeI = true;
-            }
-        }
-
-        return false;
-    }
-}
-
+	} // End of main
+} // End of class
