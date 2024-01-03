@@ -1,28 +1,42 @@
-import java.util.List;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.StringTokenizer;
 
-/*
-* 파도반 수열 - Silver III
-* */
 public class Main {
-    public static void main(String[] args) {
-        Scanner sc  = new Scanner(System.in);
-        int T = sc.nextInt();
-        long[] P = new long[103];
-        P[1] = 1;
-        P[2] = 1;
-        P[3] = 1;
-        P[4] = 2;
-        P[5] = 2;
 
-        for (int i = 0; i < T; i ++) {
-            int N = sc.nextInt();
+    // 1, 1, 1, 2, 2, 3
+    // P(7) = dp[7 - 1] + dp[7 - 5] = 4
+    // P(8) = dp[8 - 1] + dp[8 - 5] = 5
+    // P(9) = dp[8 - 1] + dp[8 - 5] = 5
+    public static void main(String[] args) throws IOException {
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(bf.readLine());
+        long[] dp = new long[101];
 
-            for (int a = 6; a <= N; a++) {
-                P[a] = P[a - 1] + P[a - 5];
-            }
+        dp[1] = 1;
+        dp[2] = 1;
+        dp[3] = 1;
+        dp[4] = 2;
+        dp[5] = 2;
 
-            System.out.println(P[N]);
+        dp[6] = 3;
+        dp[7] = 4;
+        dp[8] = 5;
+        dp[9] = 7;
+        dp[10] = 9;
+
+        for (int i = 11; i < 101; i++) {
+            dp[i] = dp[i - 1] + dp[i - 5];
+        }
+
+        int T = Integer.parseInt(st.nextToken());
+        for (int t = 0; t < T; t++) {
+            System.out.println(dp[Integer.parseInt(bf.readLine())]);
         }
     }
+
 }
+
