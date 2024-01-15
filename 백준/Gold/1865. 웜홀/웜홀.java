@@ -21,44 +21,38 @@ public class Main {
     static List<Node>[] node;
     static final int INF = 987654321;
 
+    // bellmanFord
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(bf.readLine());
 
         int T = Integer.parseInt(st.nextToken());
 
-        for (int i = 0; i < T; i++) {
+        for (int t = 0; t < T; t++) {
             st = new StringTokenizer(bf.readLine());
-
             int N = Integer.parseInt(st.nextToken());
             int M = Integer.parseInt(st.nextToken());
             int W = Integer.parseInt(st.nextToken());
 
             node = new List[N + 1];
-
-            for (int c = 1; c < node.length; c++) {
-                node[c] = new ArrayList<>();
+            for (int i = 1; i < node.length; i++) {
+                node[i] = new ArrayList<>();
             }
 
-            for (int r = 0; r < M; r++) {
+            for (int i = 0; i < M + W; i++) {
                 st = new StringTokenizer(bf.readLine());
 
                 int nodeA = Integer.parseInt(st.nextToken());
                 int nodeB = Integer.parseInt(st.nextToken());
                 int length = Integer.parseInt(st.nextToken());
 
+                if (i >= M) {
+                    node[nodeA].add(new Node(nodeB, -length));
+                    continue;
+                }
+
                 node[nodeA].add(new Node(nodeB, length));
                 node[nodeB].add(new Node(nodeA, length));
-            }
-
-            for (int w = 0; w < W; w++) {
-                st = new StringTokenizer(bf.readLine());
-
-                int startNode = Integer.parseInt(st.nextToken());
-                int endNode = Integer.parseInt(st.nextToken());
-                int backLength = Integer.parseInt(st.nextToken()) * -1;
-
-                node[startNode].add(new Node(endNode, backLength));
             }
 
             if (bellmanFord(1)) {
@@ -75,10 +69,12 @@ public class Main {
         minimum[start] = 0;
         boolean update = false;
 
+        // 전체 노드의 수보다 1 적게 반복
         for (int i = 1; i < minimum.length - 1; i++) {
             update = false;
 
-            for (int j = 1; j < minimum.length; j++) {
+            // 모든 노드를 순회하며 노드 값 update
+            for (int j = 1; j < node.length; j++) {
                 for (Node next : node[j]) {
                     if (minimum[next.number] > minimum[j] + next.length) {
                         minimum[next.number] = minimum[j] + next.length;
@@ -86,10 +82,15 @@ public class Main {
                     }
                 }
             }
+
+            if (!update) {
+                break;
+            }
         }
 
         if (update) {
-            for (int j = 1; j < minimum.length; j++) {
+            // 업데이트가 발생한다면 음수 사이클이 있는 것
+            for (int j = 1; j < node.length; j++) {
                 for (Node next : node[j]) {
                     if (minimum[next.number] > minimum[j] + next.length) {
                         return true;
