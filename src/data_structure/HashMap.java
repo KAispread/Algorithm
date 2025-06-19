@@ -1,6 +1,8 @@
 package data_structure;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class HashMap<K, V> {
 
@@ -59,6 +61,26 @@ public class HashMap<K, V> {
         }
 
         return node.getValue();
+    }
+
+    public boolean contains(K key) {
+        int index = getIndex(key);
+        Node<K, V> node = findNodeFromKey(index, key);
+
+        return node != null;
+    }
+
+    public Set<EntrySet<K, V>> entrySet() {
+        final Set<EntrySet<K, V>> entrySet = new HashSet<>();
+
+        for (int i = 0; i < hashBucket.length; i++) {
+            Node<K, V> kvNode = hashBucket[i];
+            while (kvNode != null) {
+                entrySet.add(new EntrySet(kvNode));
+                kvNode = kvNode.getNextNode();
+            }
+        }
+        return entrySet;
     }
 
     private Node<K, V> findNodeFromKey(int index, K key) {
@@ -127,7 +149,7 @@ public class HashMap<K, V> {
     }
 
     private int getIndex(K key) {
-        return key.hashCode() % currentCapacity;
+        return Math.abs(key.hashCode() % currentCapacity);
     }
 
     /*
@@ -189,6 +211,24 @@ public class HashMap<K, V> {
 
         public Node<K, V> getPrevNode() {
             return prevNode;
+        }
+
+        public K getKey() {
+            return key;
+        }
+
+        public V getValue() {
+            return value;
+        }
+    }
+
+    static class EntrySet<K, V> {
+        private K key;
+        private V value;
+
+        public EntrySet(Node<K, V> node) {
+            this.key = node.getKey();
+            this.value = node.getValue();
         }
 
         public K getKey() {
